@@ -1,8 +1,4 @@
 FROM kszucs/miniconda3
 
-RUN apk --no-cache add git libgit2-dev build-base \
- && conda install -y cffi \
- && pip --no-cache-dir install pygit2==0.24.1 \
- && conda clean -y -a \
- && rm -rf /var/cache/apk/* \
- && apk del --purge build-base
+RUN conda install -c m-labs -y pygit2=0.24.0 \
+ && conda clean -y -a
