@@ -1,0 +1,8 @@
+FROM kszucs/miniconda3
+
+RUN apk --update add build-base \
+ && conda install -y nomkl cython libxml2 libxslt dill spacy gensim lxml requests beautifulsoup4 flask ujson hdfs3 \
+ && pip --no-cache-dir install annoy cassandra-driver==3.6.0 \
+ && conda clean --all --yes \
+ && rm -rf /var/cache/apk/* \
+ && apk del build-base 
