@@ -1,0 +1,5 @@
+FROM kszucs/miniconda3
+
+RUN apk --no-cache add libstdc++ \
+ && conda install -y nomkl ipython-notebook distributed \
+ && conda clean -a -y
