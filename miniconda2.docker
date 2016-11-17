@@ -4,12 +4,12 @@ ENV CONDA_DIR="/opt/conda"
 ENV PATH="$CONDA_DIR/bin:$PATH"
 
 # Install conda
-RUN CONDA_VERSION="4.1.11" \
- && CONDA_MD5_CHECKSUM="b2af3b9ff39c4a4a812f50cecbafcda6" \
+RUN CONDA_VERSION="4.2.12" \
+ && CONDA_MD5_CHECKSUM="c8b836baaa4ff89192947e4b1a70b07e" \
   \
- && apk add --no-cache --virtual=.build-dependencies bash \
+ && apk add --no-cache --virtual=.build-dependencies bash ca-certificates openssl \
  && mkdir -p "$CONDA_DIR" \
- && wget "http://repo.continuum.io/miniconda/Miniconda2-${CONDA_VERSION}-Linux-x86_64.sh" -O miniconda.sh \
+ && wget "https://repo.continuum.io/miniconda/Miniconda2-${CONDA_VERSION}-Linux-x86_64.sh" -O miniconda.sh \
  && echo "$CONDA_MD5_CHECKSUM  miniconda.sh" | md5sum -c \
  && bash miniconda.sh -f -b -p "$CONDA_DIR" \
  && echo "export PATH=$CONDA_DIR/bin:\$PATH" > /etc/profile.d/conda.sh \
