@@ -1,10 +1,15 @@
 FROM kszucs/miniconda3
 
-RUN apk --no-cache add libstdc++ git \
- && apk --no-cache add --virtual=.build-deps build-base \
- && echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
- && apk --no-cache add libgit2-dev@edge \
+# && echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
+# && apk --no-cache add libgit2-dev@edge \
+
+ENV LIBGIT2=/opt/conda
+
+RUN apk --no-cache --update add libstdc++ git \
+ && apk --no-cache --update add --virtual=.build-deps build-base \
+ && conda install -y libgit2 \
  && pip --no-cache-dir install cffi \
  && pip --no-cache-dir install git+https://github.com/kszucs/pygit2 \
+ && conda clean -y -a \
  && apk del --force --purge .build-deps \
  && touch /root/.gitconfig
