@@ -5,11 +5,10 @@ FROM kszucs/miniconda3
 
 ENV LIBGIT2=/opt/conda
 
-RUN apk --no-cache --update add libstdc++ git \
- && apk --no-cache --update add --virtual=.build-deps build-base \
- && conda install -y libgit2 \
+RUN apk --no-cache --update add --virtual=.build-deps build-base git \
+ && conda install -y libgcc libgit2 \
  && pip --no-cache-dir install cffi \
- && pip --no-cache-dir install git+https://github.com/kszucs/pygit2 \
+ && pip --no-cache-dir install git+https://github.com/libgit2/pygit2 \
  && conda clean -y -a \
  && apk del --force --purge .build-deps \
  && touch /root/.gitconfig
