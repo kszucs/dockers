@@ -1,5 +1,4 @@
 FROM kszucs/miniconda3
 
-RUN apk --no-cache add libstdc++ \
- && conda install -y nomkl ipython-notebook distributed \
+RUN conda install -y nomkl libgcc distributed dask bokeh \
  && conda clean -a -y
