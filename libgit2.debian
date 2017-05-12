@@ -3,9 +3,9 @@ FROM kszucs/miniconda3:debian
 ENV LIBGIT2=/opt/conda
 
 RUN export LIBGIT2_ARCHIVE='https://github.com/libgit2/libgit2/archive/v0.25.1.tar.gz' \
- && export BUILD_PACKAGES='build-essential wget' \
+ && export BUILD_PACKAGES='build-essential wget ca-certificates' \
  && apt-get update -y \
- && apt-get install -y $BUILD_PACKAGES \
+ && apt-get install -y --no-install-recommends git $BUILD_PACKAGES \
  && conda install -y openssl libssh2 curl cmake pkg-config \
  && wget -O /tmp/libgit2.tar.gz $LIBGIT2_ARCHIVE \
  && mkdir /tmp/libgit2 \
@@ -20,6 +20,6 @@ RUN export LIBGIT2_ARCHIVE='https://github.com/libgit2/libgit2/archive/v0.25.1.t
  && cmake --build . --target install \
  && conda remove -y cmake pkg-config \
  && conda clean --all --yes \
- && apt-get remove --purge -y $BUILD_PACKAGES $(apt-mark showauto) \
+ && apt-get autoremove --purge -y $BUILD_PACKAGES \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/*
