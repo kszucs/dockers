@@ -1,0 +1,23 @@
+FROM kszucs/miniconda3:debian
+
+RUN conda install -y graphviz python-graphviz dask distributed \
+                     nomkl numpy scipy pandas h5py matplotlib \
+                     cytoolz toolz pytables fastparquet zict s3fs \
+                     notebook git \
+ && conda clean -a -y
+
+RUN git clone https://github.com/dask/dask-tutorial.git ./dask-tutorial \
+ && git clone https://github.com/dask/dask-examples.git ./dask-examples \
+ && cd dask-tutorial
+
+RUN apt-get update -y \
+ && apt-get install --no-install-recommends -y graphviz \
+ && apt-get autoremove --purge \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /tmp/*
+
+WORKDIR /dask-tutorial
+
+EXPOSE 8888 8787
+
+CMD ["jupyter", "notebook", "--ip", "0.0.0.0", "--allow-root"]
